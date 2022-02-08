@@ -145,6 +145,22 @@ function! ale#c#ParseCFlags(path_prefix, should_quote, raw_arguments) abort
         let l:option = l:arguments[l:option_index]
         let l:option_index = l:option_index + 1
 
+        if l:option =~# '-fdiagnostics-color='
+            let l:option = substitute(
+            \   l:option,
+            \   '-fdiagnostics-color=',
+            \   '',
+            \   'g')
+        endif
+
+        if l:option =~# '-fcolor-diagnostics'
+            let l:option = substitute(
+            \   l:option,
+            \   '-fcolor-diagnostics',
+            \   '',
+            \   'g')
+        endif
+
         " Include options, that may need relative path fix
         if stridx(l:option, '-I') == 0
         \ || stridx(l:option, '-iquote') == 0
